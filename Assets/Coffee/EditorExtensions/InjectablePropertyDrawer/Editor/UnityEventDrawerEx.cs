@@ -86,6 +86,10 @@ namespace Coffee.EditorExtensions
 			{
 				styleBg = new GUIStyle("ProgressBarBack");
 				styleToggle = new GUIStyle("OL Toggle") { fontSize = 9 };
+				styleToggle.onNormal.textColor =
+					styleToggle.normal.textColor = 
+						styleToggle.onActive.textColor = 
+							styleToggle.active.textColor = EditorStyles.label.normal.textColor;
 			}
 
 			GUI.Label(rect, "", styleBg);
