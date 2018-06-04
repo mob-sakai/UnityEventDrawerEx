@@ -1,6 +1,20 @@
 # Changelog
 
-## [v0.1.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.1.0) (2018-06-04)
+## [v0.2.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.2.0) (2018-06-04)
+
+[Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v0.1.0...v0.2.0)
+
+Add test code and refactor code.
+
+**Implemented enhancements:**
+
+- Add test [\#9](https://github.com/mob-sakai/UnityEventDrawerEx/issues/9)
+
+**Closed issues:**
+
+- Refactoring [\#7](https://github.com/mob-sakai/UnityEventDrawerEx/issues/7)
+
+## [v0.1.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.1.0) (2018-06-03)
 
 [Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/354856e5965e6e213be0496959aa52cb0be21c21...v0.1.0)
 
