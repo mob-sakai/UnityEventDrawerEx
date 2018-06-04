@@ -1,7 +1,7 @@
 UnityEventDrawerEx
 ===
 
-![image](https://user-images.githubusercontent.com/12690315/40888757-c4cf3990-6796-11e8-854d-47b371632644.png)
+![image](https://user-images.githubusercontent.com/12690315/40921624-f43811b6-684a-11e8-96e4-83964730a358.png)
 
 This plugin extends the UnityEventDrawer to display runtime calls in the inspector.
 
@@ -71,9 +71,12 @@ If you like a development style that heavily uses Runtime calls (MVP pattern, et
 #### Features
 
 * Display runtime calls in inspector
-* Expand/collapse the runtime call view.
+* Expand/collapse the runtime call view
 * Display instance method, its target is also displayed
 * When the Persistent call is empty, display it compactly
+* Support pro skin
+
+
 
 <br><br><br><br>
 ## Usage
