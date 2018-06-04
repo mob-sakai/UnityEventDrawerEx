@@ -1,7 +1,7 @@
 UnityEventDrawerEx
 ===
 
-![image](https://user-images.githubusercontent.com/12690315/40887938-12736f56-678b-11e8-9a4c-997456b13603.png)
+![image](https://user-images.githubusercontent.com/12690315/40888757-c4cf3990-6796-11e8-854d-47b371632644.png)
 
 This plugin extends the UnityEventDrawer to display runtime calls in the inspector.
 
@@ -23,7 +23,7 @@ This plugin extends the UnityEventDrawer to display runtime calls in the inspect
 
 #### What is runtime call?
 
-*Button.onClick* and *Toggle.OnChangeValue* etc are known as **UnityEvent**.  
+*Button.onClick* and *Toggle.OnChangeValue* etc. are known as **UnityEvent**.  
 UnityEvent has two types of callbacks:
 
 * Persistent call
@@ -66,9 +66,14 @@ public class TestBehavior : MonoBehaviour
 ![image](https://user-images.githubusercontent.com/12690315/40887986-d0c2af58-678b-11e8-953c-63116ab2b433.png)
 
 
-If you like a development style that heavily uses Runtime calls (MVP pattern etc), we recommend using this plugin!
+If you like a development style that heavily uses Runtime calls (MVP pattern, etc.), we recommend using this plugin!
 
+#### Features
 
+* Display runtime calls in inspector
+* Expand/collapse the runtime call view.
+* Display instance method, its target is also displayed
+* When the Persistent call is empty, display it compactly
 
 <br><br><br><br>
 ## Usage
