@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class TestBehavior : MonoBehaviour
 {
 	[System.Serializable] public class TransformUnityEvent : UnityEngine.Events.UnityEvent<Transform> {};
@@ -18,6 +19,7 @@ public class TestBehavior : MonoBehaviour
 
 
 #if true
+	[SerializeField] string text;
 	[SerializeField] UnityEngine.UI.Button button = null;
 
 	public void TestPersistant()
