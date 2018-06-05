@@ -75,6 +75,8 @@ If you like a development style that heavily uses Runtime calls (MVP pattern, et
 * Display instance method, its target is also displayed
 * When the Persistent call is empty, display it compactly
 * Support pro skin
+* Support all components as well as uGUI components such as Button and Toggle  
+![image](https://user-images.githubusercontent.com/12690315/40947741-55bcb0be-689f-11e8-9d86-6d0364ebd155.png)
 
 
 
