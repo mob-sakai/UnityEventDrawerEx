@@ -70,14 +70,15 @@ If you like a development style that heavily uses Runtime calls (MVP pattern, et
 
 #### Features
 
-* Display runtime calls in inspector
-* Expand/collapse the runtime call view
-* Display instance method, its target is also displayed
-* When the Persistent call is empty, display it compactly
-* Support pro skin
-* Support all components as well as uGUI components such as Button and Toggle  
-![image](https://user-images.githubusercontent.com/12690315/40947741-55bcb0be-689f-11e8-9d86-6d0364ebd155.png)
-
+* Displays runtime calls in inspector
+* Expands/collapses the runtime call view
+* Displays instance method, its target is also displayed
+* When the Persistent call is empty, displays it compactly
+* Supports pro skin
+* Supports all components as well as uGUI components such as `Button` and `Toggle`  
+![](https://user-images.githubusercontent.com/12690315/40947741-55bcb0be-689f-11e8-9d86-6d0364ebd155.png)
+* Supports `EventTrigger`  
+![](https://user-images.githubusercontent.com/12690315/41216786-c12a1c10-6d90-11e8-8a13-00e5b27de573.png)
 
 
 <br><br><br><br>
