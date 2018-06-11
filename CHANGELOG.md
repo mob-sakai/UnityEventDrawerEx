@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.3.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.3.0) (2018-06-11)
+
+[Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v0.2.0...v0.3.0)
+
+Supports `EventTrigger`  
+![](https://user-images.githubusercontent.com/12690315/41216786-c12a1c10-6d90-11e8-8a13-00e5b27de573.png)
+
+
+**Fixed bugs:**
+
+- Error has occurred at EventTrigger component [\#11](https://github.com/mob-sakai/UnityEventDrawerEx/issues/11)
+
 ## [v0.2.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.2.0) (2018-06-04)
 
 [Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v0.1.0...v0.2.0)

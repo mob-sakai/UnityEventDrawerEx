@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Reflection;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
-using System.Diagnostics;
 
 namespace Coffee.EditorExtensions
 {
@@ -20,7 +19,10 @@ namespace Coffee.EditorExtensions
 		static readonly FieldInfo s_FiReorderableList = typeof(UnityEventDrawer).GetField("m_ReorderableList", kBfAll);
 		static readonly FieldInfo s_FiCalls = typeof(UnityEventBase).GetField("m_Calls", kBfAll);
 		static readonly FieldInfo s_FiRuntimeCalls = Type.GetType("UnityEngine.Events.InvokableCallList, UnityEngine").GetField("m_RuntimeCalls", kBfAll);
+		static GUIStyle s_CachedStyleToggle;
+		static GUIStyle s_CachedStyleBg;
 
+		static bool s_FoldStatus { get { return UnityEventDrawerExSettings.instance.foldStatus; } set { UnityEventDrawerExSettings.instance.foldStatus = value; } }
 
 
 		//################################
@@ -84,15 +86,8 @@ namespace Coffee.EditorExtensions
 			EditorStyles.objectField.fontSize = 9;
 			foreach (var invokableCall in RuntimeCalls)
 			{
-				// Get delegate object from InvokableCall.
-				Type type = invokableCall.GetType();
-				FieldInfo fiDelegate;
-				if (!s_FiDelegateMap.TryGetValue(type, out fiDelegate))
-				{
-					fiDelegate = type.GetField("Delegate", kBfAll);
-					s_FiDelegateMap.Add(type, fiDelegate);
-				}
-				Delegate del = fiDelegate.GetValue(invokableCall) as Delegate;
+				var fi = invokableCall.GetMemberInfo("Delegate", MemberTypes.Field) as FieldInfo;
+				Delegate del = fi.GetValue(invokableCall) as Delegate;
 
 				// Draw delegate.
 				DrawDelegate(r, del);
@@ -105,15 +100,6 @@ namespace Coffee.EditorExtensions
 		//################################
 		// Private Members.
 		//################################
-
-		static bool s_FoldStatus { get { return UnityEventDrawerExSettings.instance.foldStatus; } set { UnityEventDrawerExSettings.instance.foldStatus = value; } }
-
-		static readonly Dictionary<Type, FieldInfo> s_FiDelegateMap = new Dictionary<Type, FieldInfo>();
-
-		static GUIStyle s_StyleToggle { get; set; }
-
-		static GUIStyle s_StyleBg { get; set; }
-
 		/// <summary>
 		/// Draws the runtime call toggle.
 		/// </summary>
@@ -122,22 +108,22 @@ namespace Coffee.EditorExtensions
 		static void DrawRuntimeCallToggle(Rect position, int count)
 		{
 			// Cache style.
-			if (s_StyleBg == null)
+			if (s_CachedStyleBg == null)
 			{
-				s_StyleBg = new GUIStyle("ProgressBarBack");
-				s_StyleToggle = new GUIStyle("OL Toggle") { fontSize = 9 };
-				s_StyleToggle.onNormal.textColor =
-					s_StyleToggle.normal.textColor = 
-						s_StyleToggle.onActive.textColor = 
-							s_StyleToggle.active.textColor = EditorStyles.label.normal.textColor;
+				s_CachedStyleBg = new GUIStyle("ProgressBarBack");
+				s_CachedStyleToggle = new GUIStyle("OL Toggle") { fontSize = 9 };
+				s_CachedStyleToggle.onNormal.textColor =
+					s_CachedStyleToggle.normal.textColor = 
+						s_CachedStyleToggle.onActive.textColor = 
+							s_CachedStyleToggle.active.textColor = EditorStyles.label.normal.textColor;
 			}
 
 			// Draw background.
-			GUI.Label(position, "", s_StyleBg);
+			GUI.Label(position, "", s_CachedStyleBg);
 
 			// Draw foldout with label.
 			string text = string.Format("Show runtime calls ({0})", count);
-			s_FoldStatus = GUI.Toggle(new Rect(position.x, position.y, position.width - 80, 14), s_FoldStatus, text, s_StyleToggle);
+			s_FoldStatus = GUI.Toggle(new Rect(position.x, position.y, position.width - 80, 14), s_FoldStatus, text, s_CachedStyleToggle);
 		}
 
 		/// <summary>
@@ -186,20 +172,9 @@ namespace Coffee.EditorExtensions
 		/// <param name="property">SerializedProperty.</param>
 		public static IList GetRuntimeCalls(SerializedProperty property)
 		{
-			// Find FieldInfo for the runtime call list.
-			var instance = property.serializedObject.targetObject;
-			Type type = instance.GetType();
-			FieldInfo fiProperty = null;
-			while (type != null && fiProperty == null)
-			{
-				fiProperty = type.GetField(property.name, kBfAll);
-				type = type.BaseType;
-			}
-
-			// Gets the runtime call list.
-			return s_FiRuntimeCalls.GetValue(s_FiCalls.GetValue(fiProperty.GetValue(instance))) as IList;
+			var propertyInstance = property.GetInstance();
+			return s_FiRuntimeCalls.GetValue(s_FiCalls.GetValue(propertyInstance)) as IList;
 		}
-
 	}
 
 	[Serializable]
