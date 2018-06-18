@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
+
 
 public class TestBehavior : MonoBehaviour
 {
@@ -8,7 +10,21 @@ public class TestBehavior : MonoBehaviour
 
 	};
 
-	[SerializeField] TransformUnityEvent onYourCustomEvent = new TransformUnityEvent();
+	[System.Serializable]
+	public class Nested
+	{
+		public TransformUnityEvent nestedEvent = new TransformUnityEvent();
+		public TransformUnityEvent[] nestedEventArray = new TransformUnityEvent[]{};
+		public List<TransformUnityEvent> nestedEventList = new List<TransformUnityEvent>();
+	}
+
+	public TransformUnityEvent onYourCustomEvent = new TransformUnityEvent();
+	public TransformUnityEvent[] onYourCustomEventArray = new TransformUnityEvent[]{};
+	public List<TransformUnityEvent> onYourCustomEventList = new List<TransformUnityEvent>();
+
+	public Nested nested = new Nested();
+	public Nested[] nestedArray = new Nested[]{};
+	public List<Nested> nestedList = new List<Nested>{};
 
 	void OnEnable()
 	{

@@ -173,7 +173,10 @@ namespace Coffee.EditorExtensions
 		public static IList GetRuntimeCalls(SerializedProperty property)
 		{
 			var propertyInstance = property.GetInstance();
-			return s_FiRuntimeCalls.GetValue(s_FiCalls.GetValue(propertyInstance)) as IList;
+
+			return propertyInstance != null
+				? s_FiRuntimeCalls.GetValue(s_FiCalls.GetValue(propertyInstance)) as IList
+				: new List<object>() as IList;
 		}
 	}
 

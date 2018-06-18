@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.4.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.4.0) (2018-06-18)
+
+[Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v0.3.0...v0.4.0)
+
+Supports UnityEvent collection such as `List<UnityEvent>` and `UnityEvent[]`.
+
+**Fixed bugs:**
+
+- Error has occurred with UnityEvent collection such as List\<UnityEvent\> and UnityEvent\[\]. [\#13](https://github.com/mob-sakai/UnityEventDrawerEx/issues/13)
+
 ## [v0.3.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.3.0) (2018-06-11)
 
 [Full Changelog](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v0.2.0...v0.3.0)
