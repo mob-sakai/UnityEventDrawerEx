@@ -1,3 +1,17 @@
+# 1.0.0 (2020-12-28)
+
+
+### Features
+
+* display runtime calls in inspector ([25d29ce](https://github.com/mob-sakai/UnityEventDrawerEx/commit/25d29ce69735924a3a5fc4d363e30d20e7188ae9))
+* display target of instance method ([e547f6b](https://github.com/mob-sakai/UnityEventDrawerEx/commit/e547f6bd8e1ad710cca5cefd052688e87afbb385))
+* expandable runtime calls ([88d6930](https://github.com/mob-sakai/UnityEventDrawerEx/commit/88d6930622f95bb2cb133c0cbe0fd4305a410de9))
+* impl ([c868712](https://github.com/mob-sakai/UnityEventDrawerEx/commit/c86871275fb730708d9fd504d2f984ae906b118f))
+* support `EventTrigger` ([ce0550d](https://github.com/mob-sakai/UnityEventDrawerEx/commit/ce0550d2967c338f6ad7a233030b06f914707e23))
+* support static methods, instance methods, anonymous methods, ramda expressions ([a2648bc](https://github.com/mob-sakai/UnityEventDrawerEx/commit/a2648bc99be563070c1f87c954ed0dbd3f460917))
+* support UnityEvent collection such as `List\<UnityEvent\>` and `UnityEvent[]` ([3c99ad2](https://github.com/mob-sakai/UnityEventDrawerEx/commit/3c99ad22cc9436476b3a451002b1ac47a2bb6dc7))
+* when the persistent call is empty, UnityEvent is displayed compactly ([a244027](https://github.com/mob-sakai/UnityEventDrawerEx/commit/a244027a895a2ff67ac48ce617931021de2c9371))
+
 # Changelog
 
 ## [v0.4.0](https://github.com/mob-sakai/UnityEventDrawerEx/tree/v0.4.0) (2018-06-18)
