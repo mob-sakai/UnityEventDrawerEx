@@ -91,7 +91,7 @@ namespace Coffee.EditorExtensions
             MemberInfo mi = null;
             if (memberMap.TryGetValue(name, out mi)) return mi;
 
-            mi = GetMemberInfo((object) type, name, memberType);
+            mi = GetMemberInfo(type, name, memberType);
             memberMap.Add(name, mi);
 
             return mi;
