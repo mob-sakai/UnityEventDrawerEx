@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/mob-sakai/UnityEventDrawerEx/compare/1.0.0...1.0.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* fix Unity crash ([d8a27f2](https://github.com/mob-sakai/UnityEventDrawerEx/commit/d8a27f2e86aca93261f981f7bce0a025384c4042))
+
 # 1.0.0 (2020-12-28)
 
 
