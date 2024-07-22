@@ -153,7 +153,7 @@ namespace Coffee.EditorExtensions
                 }
                 else if (target != null)
                 {
-                    EditorGUI.LabelField(r, string.Format("{0} ({1})", target.ToString(), target.GetType()), EditorStyles.miniLabel);
+                    EditorGUI.LabelField(r, GetNameWithoutNameSpace(target.GetType()), EditorStyles.miniLabel);
                 }
                 else
                 {
@@ -163,12 +163,17 @@ namespace Coffee.EditorExtensions
                 // Draw the method name.
                 r.x += r.width;
                 r.width = position.width - r.width;
-                EditorGUI.LabelField(r, method.ReflectedType + "." + method.Name, EditorStyles.miniLabel);
+                EditorGUI.LabelField(r, GetNameWithoutNameSpace(method.ReflectedType) + "." + method.Name, EditorStyles.miniLabel);
             }
             catch
             {
                 EditorGUI.LabelField(position, "null delegate", EditorStyles.miniLabel);
             }
+        }
+
+        private static string GetNameWithoutNameSpace(Type type)
+        {
+            return type.FullName.Substring(type.Namespace.Length + 1);
         }
 
         /// <summary>
