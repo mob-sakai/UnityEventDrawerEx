@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/mob-sakai/UnityEventDrawerEx/compare/v1.0.1...v1.0.2) (2024-07-22)
+
+
+### Bug Fixes
+
+* namespace is too long ([9fa71b1](https://github.com/mob-sakai/UnityEventDrawerEx/commit/9fa71b1254690635bf4a36856cd5b96c3e603ede))
+* support Unity 2022.3.23+/2023.2.15+ ([1da0d46](https://github.com/mob-sakai/UnityEventDrawerEx/commit/1da0d4659a7d4de6ff437a4eeabc3fb45165750f)), closes [#18](https://github.com/mob-sakai/UnityEventDrawerEx/issues/18)
+
 ## [1.0.1](https://github.com/mob-sakai/UnityEventDrawerEx/compare/1.0.0...1.0.1) (2023-03-13)
 
 
