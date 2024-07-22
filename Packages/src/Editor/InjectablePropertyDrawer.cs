@@ -17,8 +17,8 @@ namespace Coffee.EditorExtensions
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
     public sealed class InjectablePropertyDrawer : Attribute
     {
-        public Type type;
-        public bool useForChildren;
+        public readonly Type type;
+        public readonly bool useForChildren;
 
         /// <summary>
         /// Tells a PropertyDrawer or DecoratorDrawer class which run-time class or attribute it's a drawer for.

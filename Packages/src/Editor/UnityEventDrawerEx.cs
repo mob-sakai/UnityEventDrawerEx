@@ -11,7 +11,6 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
@@ -27,17 +26,24 @@ namespace Coffee.EditorExtensions
 #endif
     public class UnityEventDrawerEx : UnityEventDrawer
     {
-        private const BindingFlags kBfAll = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy;
-        private static readonly FieldInfo s_FiReorderableList = typeof(UnityEventDrawer).GetField("m_ReorderableList", kBfAll);
-        private static readonly FieldInfo s_FiCalls = typeof(UnityEventBase).GetField("m_Calls", kBfAll);
-        private static readonly FieldInfo s_FiRuntimeCalls = Type.GetType("UnityEngine.Events.InvokableCallList, UnityEngine").GetField("m_RuntimeCalls", kBfAll);
+        private const BindingFlags k_All = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance |
+                                           BindingFlags.Static | BindingFlags.FlattenHierarchy;
+
+        private static readonly FieldInfo s_FiReorderableList =
+            typeof(UnityEventDrawer).GetField("m_ReorderableList", k_All);
+
+        private static readonly FieldInfo s_FiCalls = typeof(UnityEventBase).GetField("m_Calls", k_All);
+
+        private static readonly FieldInfo s_FiRuntimeCalls =
+            Type.GetType("UnityEngine.Events.InvokableCallList, UnityEngine").GetField("m_RuntimeCalls", k_All);
+
         private static GUIStyle s_CachedStyleToggle;
         private static GUIStyle s_CachedStyleBg;
 
         private static bool s_FoldStatus
         {
-            get { return UnityEventDrawerExSettings.instance.foldStatus; }
-            set { UnityEventDrawerExSettings.instance.foldStatus = value; }
+            get => UnityEventDrawerExSettings.instance.foldStatus;
+            set => UnityEventDrawerExSettings.instance.foldStatus = value;
         }
 
         /// <summary>
@@ -56,8 +62,9 @@ namespace Coffee.EditorExtensions
                 ro = s_FiReorderableList.GetValue(this) as ReorderableList;
             }
 
-            // If persistent calls is empty, display it compactry.
-            var isEmpty = property.FindPropertyRelative("m_PersistentCalls").FindPropertyRelative("m_Calls").arraySize == 0;
+            // If persistent calls is empty, display it compactly.
+            var isEmpty = property.FindPropertyRelative("m_PersistentCalls")
+                .FindPropertyRelative("m_Calls").arraySize == 0;
             ro.elementHeight = isEmpty
                 ? 16
                 : 16 * 2 + 11;
@@ -77,12 +84,12 @@ namespace Coffee.EditorExtensions
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             // Draw background and toggle.
-            var RuntimeCalls = GetRuntimeCalls(property);
+            var runtimeCalls = GetRuntimeCalls(property);
             float height = s_FoldStatus
-                ? RuntimeCalls.Count * 17 + 16
+                ? runtimeCalls.Count * 17 + 16
                 : 16;
             var r = new Rect(position.x + 2, position.y + position.height - height, position.width - 4, height);
-            DrawRuntimeCallToggle(r, RuntimeCalls.Count);
+            DrawRuntimeCallToggle(r, runtimeCalls.Count);
 
             // Draw UnityEvent using default drawer.
             base.OnGUI(position, property, label);
@@ -93,7 +100,7 @@ namespace Coffee.EditorExtensions
             // Draw runtime calls.
             r = new Rect(r.x + 16, r.y + 15, r.width - 16, 16);
             EditorStyles.objectField.fontSize = 9;
-            foreach (var invokableCall in RuntimeCalls)
+            foreach (var invokableCall in runtimeCalls)
             {
                 var fi = invokableCall.GetMemberInfo("Delegate", MemberTypes.Field) as FieldInfo;
                 var del = fi.GetValue(invokableCall) as Delegate;
@@ -117,7 +124,7 @@ namespace Coffee.EditorExtensions
             if (s_CachedStyleBg == null)
             {
                 s_CachedStyleBg = new GUIStyle("ProgressBarBack");
-                s_CachedStyleToggle = new GUIStyle("OL Toggle") {fontSize = 9};
+                s_CachedStyleToggle = new GUIStyle("OL Toggle") { fontSize = 9 };
                 s_CachedStyleToggle.onNormal.textColor =
                     s_CachedStyleToggle.normal.textColor =
                         s_CachedStyleToggle.onActive.textColor =
@@ -128,8 +135,9 @@ namespace Coffee.EditorExtensions
             GUI.Label(position, "", s_CachedStyleBg);
 
             // Draw foldout with label.
-            var text = string.Format("Show runtime calls ({0})", count);
-            s_FoldStatus = GUI.Toggle(new Rect(position.x, position.y, position.width - 80, 14), s_FoldStatus, text, s_CachedStyleToggle);
+            var text = $"Show runtime calls ({count})";
+            s_FoldStatus = GUI.Toggle(new Rect(position.x, position.y, position.width - 80, 14), s_FoldStatus, text,
+                s_CachedStyleToggle);
         }
 
         /// <summary>
@@ -163,7 +171,8 @@ namespace Coffee.EditorExtensions
                 // Draw the method name.
                 r.x += r.width;
                 r.width = position.width - r.width;
-                EditorGUI.LabelField(r, GetNameWithoutNameSpace(method.ReflectedType) + "." + method.Name, EditorStyles.miniLabel);
+                var path = $"{GetNameWithoutNameSpace(method.ReflectedType)}.{method.Name}";
+                EditorGUI.LabelField(r, path, EditorStyles.miniLabel);
             }
             catch
             {
@@ -181,19 +190,21 @@ namespace Coffee.EditorExtensions
         /// </summary>
         /// <returns>The runtime call list.</returns>
         /// <param name="property">SerializedProperty.</param>
-        public static IList GetRuntimeCalls(SerializedProperty property)
+        private static IList GetRuntimeCalls(SerializedProperty property)
         {
             var propertyInstance = property.GetInstance();
-
             return propertyInstance != null
                 ? s_FiRuntimeCalls.GetValue(s_FiCalls.GetValue(propertyInstance)) as IList
-                : new List<object>() as IList;
+                : Array.Empty<object>();
         }
     }
 
     [Serializable]
     public class UnityEventDrawerExSettings : ScriptableSingleton<UnityEventDrawerExSettings>
     {
-        public bool foldStatus = true;
+        [SerializeField]
+        private bool m_FoldStatus = true;
+
+        public bool foldStatus { get => m_FoldStatus; set => m_FoldStatus = value; }
     }
 }

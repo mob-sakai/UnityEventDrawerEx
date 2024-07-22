@@ -9,11 +9,19 @@ namespace Coffee.EditorExtensions
 {
     public static class PropertyGetterDelegate
     {
-        private const BindingFlags kBfAll = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy;
-        private static readonly Dictionary<Type, Dictionary<string, MemberInfo>> s_TypeMemberMap = new Dictionary<Type, Dictionary<string, MemberInfo>>();
-        private static readonly Regex s_RegexArray = new Regex(@"^Array\.data\[([0-9]+)\](\.!?|$)", RegexOptions.Compiled);
+        private const BindingFlags k_All = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance |
+                                           BindingFlags.Static | BindingFlags.FlattenHierarchy;
+
+        private static readonly Dictionary<Type, Dictionary<string, MemberInfo>> s_TypeMemberMap =
+            new Dictionary<Type, Dictionary<string, MemberInfo>>();
+
+        private static readonly Regex s_RegexArray =
+            new Regex(@"^Array\.data\[([0-9]+)\](\.!?|$)", RegexOptions.Compiled);
+
         private static readonly Regex s_RegexNested = new Regex(@"^(\w+)\.!?", RegexOptions.Compiled);
-        private static readonly Dictionary<int, Func<object, object>> s_PropertyGetterMap = new Dictionary<int, Func<object, object>>();
+
+        private static readonly Dictionary<int, Func<object, object>> s_PropertyGetterMap =
+            new Dictionary<int, Func<object, object>>();
 
         /// <summary>
         /// Get the instance object of SerializedProperty.
@@ -25,27 +33,27 @@ namespace Coffee.EditorExtensions
                 var hash = property.propertyPath.GetHashCode();
 
                 // Find getter delegate.
-                Func<object, object> getter = null;
-                if (s_PropertyGetterMap.TryGetValue(hash, out getter))
+                if (s_PropertyGetterMap.TryGetValue(hash, out var getter))
                 {
                     return getter(property);
                 }
 
                 // Create getter delegate.
-                object instance;
                 var path = property.propertyPath;
                 getter = p => (p as SerializedProperty).serializedObject.targetObject;
                 while (0 < path.Length)
                 {
                     var preGetter = getter;
-                    instance = preGetter(property);
+                    var instance = preGetter(property);
                     Match match;
 
                     // Array property.
                     if ((match = s_RegexArray.Match(path)).Success)
                     {
-                        var arg = new object[] {int.Parse(match.Groups[1].Value)};
-                        var mi = instance.GetMemberInfo(instance is Array ? "Get" : "get_Item", MemberTypes.Method) as MethodInfo;
+                        var arg = new object[] { int.Parse(match.Groups[1].Value) };
+                        var mi =
+                            instance.GetMemberInfo(instance is Array ? "Get" : "get_Item", MemberTypes.Method) as
+                                MethodInfo;
                         getter = x => mi.Invoke(preGetter(x), arg);
                         path = s_RegexArray.Replace(path, "");
                     }
@@ -66,7 +74,6 @@ namespace Coffee.EditorExtensions
                 }
 
                 s_PropertyGetterMap.Add(hash, getter);
-
                 return getter(property);
             }
             catch
@@ -81,15 +88,13 @@ namespace Coffee.EditorExtensions
         public static MemberInfo GetMemberInfo(this object target, string name, MemberTypes memberType)
         {
             var type = target.GetType();
-            Dictionary<string, MemberInfo> memberMap = null;
-            if (!s_TypeMemberMap.TryGetValue(type, out memberMap))
+            if (!s_TypeMemberMap.TryGetValue(type, out var memberMap))
             {
                 memberMap = new Dictionary<string, MemberInfo>();
                 s_TypeMemberMap.Add(type, memberMap);
             }
 
-            MemberInfo mi = null;
-            if (memberMap.TryGetValue(name, out mi)) return mi;
+            if (memberMap.TryGetValue(name, out var mi)) return mi;
 
             mi = GetMemberInfo(type, name, memberType);
             memberMap.Add(name, mi);
@@ -105,7 +110,7 @@ namespace Coffee.EditorExtensions
             MemberInfo mi = null;
             while (type != null && mi == null)
             {
-                mi = type.GetMember(name, kBfAll).FirstOrDefault(x => x.MemberType == memberType);
+                mi = type.GetMember(name, k_All).FirstOrDefault(x => x.MemberType == memberType);
                 type = type.BaseType;
             }
 
