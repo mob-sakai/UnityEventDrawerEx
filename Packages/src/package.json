@@ -2,7 +2,7 @@
   "name": "com.coffee.event-drawer-ex",
   "displayName": "Event Drawer Extension",
   "description": "Extend the UnityEventDrawer to display runtime calls in the inspector.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "unity": "2017.1",
   "license": "MIT",
   "repository": {
